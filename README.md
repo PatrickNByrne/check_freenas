@@ -1,6 +1,6 @@
 # check_freenas
-[![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)](https://github.com/PatrickNByrne/check_freenas/issues)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/PatrickNByrne/check_freenas/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/patricknbyrne/check_freenas.svg)](https://github.com/PatrickNByrne/check_freenas/issues)
+[![license](https://img.shields.io/github/license/patricknbyrne/check_freenas.svg)](https://github.com/PatrickNByrne/check_freenas/blob/master/LICENSE)
 
 ##### A Nagios type plugin to query the Freenas API for volume and disk status
 
