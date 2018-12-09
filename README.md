@@ -34,7 +34,14 @@ define command{
 ## Usage
 
 ```
-check_freenas.py [-h] -H HOSTNAME -u USER -p PASSWD [-t TIMEOUT] -c {disks,volumes}
+check_freenas.py  [-h] 
+                  -H HOSTNAME 
+                  -u USER 
+                  -p PASSWD 
+                  [-t TIMEOUT] 
+                  [-v]
+                  [-i] 
+                  -c {disks,volumes,alerts}
 ```
 
 #### Notes
@@ -44,6 +51,7 @@ check_freenas.py [-h] -H HOSTNAME -u USER -p PASSWD [-t TIMEOUT] -c {disks,volum
 ## History
 
 * V1.0 - Initial production release
+* V1.2 - Add verbose and ignore SSL options. Add additional handling for SSL Errors.
 
 ## License
 
