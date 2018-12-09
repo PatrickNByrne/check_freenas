@@ -12,7 +12,7 @@
 #   Add storage utilization check
 # ------------------------------------------------------------------
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 
 # ------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ class FreenasAPI(object):
             output_results((3, "Error: Too many redirects", None))
         except requests.exceptions.Timeout:
             output_results((3, "Error: Timeout exceeded", None))
-        #except requests.exceptions.SSLError:
-        #    output_results((3, "Error: Unable to Verify SSL Certificate", None))
+        except requests.exceptions.SSLError:
+            output_results((3, "Error: Unable to Verify SSL Certificate", None))
         except requests.exceptions.RequestException:
             if not self.verbose:
                 output_results((3, "Error: Unknown error", None))
