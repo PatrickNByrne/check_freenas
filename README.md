@@ -13,7 +13,7 @@
 
 * Copy the check_freenas.py file to your Nagios plugins directory.
 * Create a check command to reference the plugin. 
-* Create a service check on your Freenas host using the new check command. 
+* Create a service check associated with your Freenas host in your monitor using the new check command. 
 
 #### Nagios Example
 
@@ -52,6 +52,7 @@ check_freenas.py  [-h]
 
 * V1.0 - Initial production release
 * V1.2 - Add verbose and ignore SSL options. Add additional handling for SSL Errors.
+* V1.3 - Add nagios output for alert checks
 
 ## License
 
