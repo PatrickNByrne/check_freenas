@@ -12,7 +12,7 @@
 #   Add storage utilization check
 # ------------------------------------------------------------------
 
-__version__ = "1.2.1"
+__version__ = "1.3.1"
 
 # ------------------------------------------------------------------
 
@@ -105,11 +105,13 @@ class FreenasAPI(object):
     def check_alerts(self):
         # Get alert status on the device
         alert_status = self._request('system/alert')
-        print (alert_status)
-        sys.exit (0)
-
-        # Return OK if all volumes are healthy
-        #return (0, "All volumes are healthy", None)
+        # Check the latest(?) alert and return the message
+        if alert_status[0]["level"] == "CRIT":
+            return (2, alert_status[0]["message"], None)
+        elif alert_status[0]["level"] == "WARN":
+            return (1, alert_status[0]["message"], None)
+        elif alert_status[0]["level"] == "OK":
+            return (0, alert_status[0]["message"], None)
 
 # Format results for Nagios processing
 def output_results(*exitstatus):
