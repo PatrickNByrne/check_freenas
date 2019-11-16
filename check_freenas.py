@@ -20,6 +20,7 @@ import argparse
 import json
 import sys
 import requests
+import re
 
 class FreenasAPI(object):
 
@@ -105,13 +106,14 @@ class FreenasAPI(object):
     def check_alerts(self):
         # Get alert status on the device
         alert_status = self._request('system/alert')
-        # Check the latest(?) alert and return the message
-        if alert_status[0]["level"] == "CRIT":
-            return (2, alert_status[0]["message"], None)
-        elif alert_status[0]["level"] == "WARN":
-            return (1, alert_status[0]["message"], None)
-        elif alert_status[0]["level"] == "OK":
-            return (0, alert_status[0]["message"], None)
+        # don't alert on status, sometimes messages stay resident
+        # and you have active checks on other system elements.
+        # instead, display last message payload from status API.
+        status_string = str(alert_status)
+        message = re.compile("message(.*)id")
+        print (message.search(status_string).group(1))
+        sys.exit (0)
+
 
 # Format results for Nagios processing
 def output_results(*exitstatus):
