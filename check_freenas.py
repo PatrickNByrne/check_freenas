@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # ------------------------------------------------------------------
 # Author: Patrick Byrne
-# Copyright: Patrick Byrne (2017)
+# Copyright: Patrick Byrne
 # License: Apache 2.0
 # Title: check_freenas.py
 # Description:
@@ -12,7 +12,7 @@
 #   Add storage utilization check
 # ------------------------------------------------------------------
 
-__version__ = "1.3.1"
+__version__ = "1.3.2"
 
 # ------------------------------------------------------------------
 
@@ -105,13 +105,28 @@ class FreenasAPI(object):
     def check_alerts(self):
         # Get alert status on the device
         alert_status = self._request('system/alert')
-        # Check the latest(?) alert and return the message
-        if alert_status[0]["level"] == "CRIT":
-            return (2, alert_status[0]["message"], None)
-        elif alert_status[0]["level"] == "WARN":
-            return (1, alert_status[0]["message"], None)
-        elif alert_status[0]["level"] == "OK":
-            return (0, alert_status[0]["message"], None)
+        # Unpack data in both known API return formats
+        if 'objects' in alert_status:
+            alert_list = alert_status['objects']
+        else:
+            alert_list = alert_status
+        # Check for no alerts
+        if len(alert_list) <= 0:
+            return (0, "No alerts", None)
+        # Loop through the alerts
+        for alert in alert_list:
+            # Check if the alert is dismissed and skip the iteration if true
+            if alert['dismissed']:
+                continue
+            # Check the alert level and return the message
+            if alert['level'] == "CRIT" or alert['level'] == "CRITICAL":
+                return (2, alert['message'], None)
+            elif alert['level'] == "WARN" or alert['level'] == "WARNING":
+                return (1, alert['message'], None)
+            elif alert['level'] == "OK":
+                return (0, alert['message'], None)
+        # If all alerts are dismissed
+        return (0, "No unacknowledged alerts", None)
 
 # Format results for Nagios processing
 def output_results(*exitstatus):
