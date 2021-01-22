@@ -12,7 +12,7 @@
 #   Add storage utilization check
 # ------------------------------------------------------------------
 
-__version__ = "1.3.2"
+__version__ = "1.3.3"
 
 # ------------------------------------------------------------------
 
@@ -95,8 +95,8 @@ class FreenasAPI(object):
                     disks = vdev['children']
                     for disk in disks:
                         # Check the disk status
-                        if disk['status'] != 'ONLINE':
-                            return (2, "Disk " + disk['name'] + " is offline", None)
+                        if disk['status'] not in ['ONLINE', 'AVAIL']:
+                            return (2, "Disk " + disk['name'] + " is " + disk['status'], None)
 
         # If all the disks are online, return "OK"
         return (0, "All disks are online", None)
